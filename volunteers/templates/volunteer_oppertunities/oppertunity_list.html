@@ -1,0 +1,124 @@
+{% extends 'main/base.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/opp_list.css' %}">
+</head>
+
+<div class="container">
+    <h1 class="mt-4 mb-4">Volunteer Opportunities</h1>
+    {% if request.user.is_superuser %}
+    <ul class="nav nav-tabs mt-4">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'volunteer_opportunities:create_opportunity' %}">Add Event</a>
+        </li>
+    </ul>
+    {% endif %}
+    <br>
+    <div class="row d-flex justify-content-center">
+        <div class="mb-3 col-3">
+            <select id="sort_type" class="form-select" name="sort_type">
+                <option value="">Search Type</option>
+                {% for key, value in distinct_project_types.items %}
+                <option value="{{ key }}">{{ value }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3 col-3">
+            <select id="sort_region" class="form-select" name="sort_region">
+                <option value="">Search Region</option>
+                {% for key, value in distinct_regions.items %}
+                <option value="{{ key }}">{{ value }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3 col-3">
+            <select id="sort_city" class="form-select" name="sort_city">
+                <option value="">Search City</option>
+                {% for key, value in distinct_cities.items %}
+                <option value="{{ key }}">{{ value }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3 col-3">
+            <button class="btn btn-outline-secondary" type="button" id="searchButton">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table ">
+            <thead class="thead-light">
+                <tr>
+                    <th>Project Name</th>
+                    <th>Type</th>
+                    <th>Objective</th>
+                    <th>End Date</th>
+                    <th>City</th>
+                    <th>Reigon</th>
+                    <th>Status</th>
+                    <th>Members</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in opportunity_data %}
+                <tr>
+                    <td>{{ data.opportunity.project_name }}</td>
+                    <td>{{ data.opportunity.get_project_type_display }}</td>
+                    <td>{{ data.opportunity.get_project_objective_display }}</td>
+                    <td>{{ data.opportunity.end_date }}</td>
+                    <td>{{ data.opportunity.get_city_display }}</td>
+                    <td>{{ data.opportunity.get_region_display }}</td>
+
+                    <td>{{ data.opportunity.get_status_display }}</td>
+                    <td>{{ data.joined_members_count }}/{{ data.opportunity.members_required }}</td>
+                    <td>
+                        {% if request.user.is_superuser %}
+                        <a href="{% url 'volunteer_opportunities:opportunity_update' pk=data.opportunity.pk %}"
+                            class="btn btn-primary btn-sm">Update</a>
+                        <a href="{% url 'volunteer_opportunities:opportunity_delete' pk=data.opportunity.pk %}"
+                            class="btn btn-danger btn-sm">Delete</a>
+                        {% else %}
+                        {% if data.opportunity.status %}
+                        <button class="btn btn-warning btn-sm disabled" disabled>Completed</button>
+                        {% elif data.user_has_joined %}
+                        <button class="btn btn-info btn-sm disabled" disabled>Joined</button>
+                        {% else %}
+                        <a href="{% url 'volunteer_opportunities:opportunity_join' pk=data.opportunity.pk %}"
+                            class="btn btn-success btn-sm">Join</a>
+                        {% endif %}
+                        {% endif %}
+                        
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    document.getElementById("searchButton").addEventListener("click", function () {
+        // Get selected values for sorting
+        var selectedType = document.getElementById("sort_type").value;
+        var selectedCity = document.getElementById("sort_city").value;
+        var selectedRegion = document.getElementById("sort_region").value;
+
+        // Construct the search URL based on selected options
+        var searchUrl = "/opportunity_list?";
+        if (selectedType) {
+            searchUrl += "sort_type=" + selectedType + "&";
+        }
+        if (selectedCity) {
+            searchUrl += "sort_city=" + selectedCity + "&";
+        }
+        if (selectedRegion) {
+            searchUrl += "sort_region=" + selectedRegion;
+        }
+
+        // Redirect to the search URL
+        window.location.href = searchUrl;
+    });
+</script>
+{% endblock %}

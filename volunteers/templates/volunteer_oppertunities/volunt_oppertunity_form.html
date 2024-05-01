@@ -1,0 +1,65 @@
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr@5.3.0/dist/flatpickr.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@5.3.0/dist/flatpickr.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <h2>Update Volunteer Opportunity</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    <!-- Display form fields -->
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Update Opportunity</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Define a JavaScript object to map project types to descriptions
+        var descriptions = {
+            'community_service': 'Opportunities that involve directly assisting local communities through activities such as food distribution, clothing drives, community clean-ups, and neighborhood revitalization projects.',
+            'education_and_tutoring': 'Volunteering to support educational initiatives, such as tutoring students, assisting teachers in classrooms, leading workshops, or participating in literacy programs.',
+            'healthcare_and_wellness': 'Volunteering in healthcare settings such as hospitals, clinics, or nursing homes to provide support to patients, assist medical staff, or promote wellness initiatives.',
+            'environmental_conservation': 'Opportunities focused on protecting and preserving the environment through activities such as tree planting, wildlife habitat restoration, beach clean-ups, or promoting sustainability initiatives.',
+            'animal_welfare': 'Volunteering with animal shelters, rescue organizations, or wildlife sanctuaries to care for animals, assist with adoption events, or participate in animal rehabilitation efforts.',
+            'advocacy_and_human_rights': 'Volunteering with advocacy groups, nonprofits, or NGOs to promote social justice, human rights, and equality through activities such as lobbying, fundraising, awareness campaigns, or community organizing.',
+            'arts_and_culture': 'Volunteering in museums, galleries, theaters, or cultural centers to support artistic and cultural programs, assist with events, provide guided tours, or contribute to creative projects.',
+            'disaster_relief_and_emergency_response': 'Volunteering with organizations involved in disaster preparedness, response, and recovery efforts, including providing aid to affected communities, distributing supplies, or assisting with rescue and recovery operations.',
+            'technology_and_digital_skills': 'Volunteering to help organizations with technology-related tasks such as website development, social media management, digital marketing, IT support, or teaching digital literacy skills.',
+            'mentoring_and_youth_development': 'Volunteering to mentor young people, provide guidance and support in academic or personal development, lead youth programs, or serve as a positive role model.',
+            'international_volunteerism': 'Opportunities to volunteer abroad or participate in international development projects, including humanitarian aid, healthcare missions, education programs, or sustainable development initiatives.',
+            'virtual_volunteering': 'Opportunities that can be done remotely or online, such as virtual tutoring, remote administrative support, graphic design, translation, or social media management.'
+        };
+
+        $('#id_project_objective').change(function () {
+        var projectObjective = $(this).val();
+        console.log('Selected Project Objective:', projectObjective);
+        var description = descriptions[projectObjective];
+        console.log('Description:', description);
+        $('#id_project_description').val(description);
+    });
+});
+</script>
+
+
+</html>
+{% endblock %}

@@ -1,0 +1,31 @@
+/* Custom styles for navbar */
+.navbar-brand {
+    font-weight: bold;
+    color: #333;
+    /* Change navbar brand color */
+}
+
+.navbar-brand:hover {
+    color: #555;
+    /* Change navbar brand hover color */
+}
+
+.navbar-nav .nav-link {
+    color: #333;
+    /* Change navbar link color */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #555;
+    /* Change navbar link hover color */
+}
+
+.navbar-nav .btn {
+    background-color: #dc3545;
+    /* Change logout button background color */
+}
+
+.navbar-nav .btn:hover {
+    background-color: #c82333;
+    /* Change logout button hover background color */
+}

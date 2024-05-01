@@ -1,0 +1,35 @@
+{% block content %}
+<style>
+    .project-date {
+    background-color: blue;
+    color: white;
+}
+</style>
+    <h1>Volunteer Opportunities Calendarq1</h1>
+    <div class="calendar">
+        <table>
+            <thead>
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for week in calendar %}
+                    <tr>
+                        {% for day, date in week %}
+                            <td class="{% if date in project_dates %}project-date{% endif %}">
+                                {{ date|date:"j" }}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

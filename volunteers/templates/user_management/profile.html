@@ -1,0 +1,125 @@
+{% extends 'main/base.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="sidebar">
+        <h2>Volunteers</h2><br>
+        <ul>
+            {% for u in all_users %}
+            <li class="user">
+                <a href="#" onclick="startPrivateChat('{{ u.id }}')">
+                    <span class="user-icon {% if online_status %}online{% else %}offline{% endif %}"></span>
+                    {{ u.username }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <!-- Main content -->
+    <div class="main-content container">
+        <div class="card">
+            <h1 class="card-title">User Profile</h1>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th scope="row">Username:</th>
+                        <td>{{ user.username }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Mobile Number:</th>
+                        <td>{{ user.mobile_number }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Email:</th>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">NIC:</th>
+                        <td>{{ user.nic }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Interests:</th>
+                        <td>{{ user.interests }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Abilities:</th>
+                        <td>{{ user.abilities }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Talents:</th>
+                        <td>{{ user.talents }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Involved Project:</th>
+                        <td>{{ user_projects_count }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Completed Project:</th>
+                        <td>{{ status_true_count }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Volunteer Rank:</th>
+                        <td class=""><b style="color: #6A0DAD; font-size: 18px;">{{ volunteer_rank }}</b></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card mt-4">
+            <h2 class="card-title">Projects</h2>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Project Name</th>
+                        <th>Type</th>
+                        <th>Objective</th>
+                        <th>Launch Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for project in user_projects %}
+                    <tr>
+                        <td>{{ project.project_name }}</td>
+                        <td>{{ project.project_type }}</td>
+                        <td>{{ project.project_objective }}</td>
+                        <td>{{ project.end_date }}</td>
+                        {% if project.status %}
+                            <td>
+                                <button class="btn btn-warning disabled">Completed</button>
+                            </td>
+                        {% else %}
+                        <td>
+                            <button class="btn btn-primary" onclick="startGroupChat('{{ project.id }}')">Group Chat</button>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function startPrivateChat(userId) {
+            // Redirect to the private chat page with the selected user ID
+            window.location.href = '/private_chat/' + userId + '/';
+        }
+
+        function startGroupChat(projectId) {
+            // Redirect to the group chat page for the selected project
+            window.location.href = '/group_chat/' + projectId + '/';
+        }
+    </script>
+</body>
+
+</html>
+{% endblock %}

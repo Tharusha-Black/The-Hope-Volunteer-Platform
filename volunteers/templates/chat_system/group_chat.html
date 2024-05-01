@@ -1,0 +1,79 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Chat</title>
+    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/chats.css' %}">
+</head>
+
+<body>
+    <main>
+        <div class="sidebar">
+            <h2>Group Volunteers</h2><br>
+            <ul>
+                {% for member in members %}
+                <li class="user">
+                    <a href="#" onclick="startPrivateChat('{{ member.id }}')">
+                        <span class="user-icon {% if member.is_online %}online{% else %}offline{% endif %}"></span>
+                        {{ member.username }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="main-content container card">
+            <div class="card">
+                <h1>{{ chat.project }} - Group Chat</h1>
+            </div>
+            <div class="chat-container ">
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="message {% if message.sender == user %}sent{% else %}received{% endif %}">
+                        <div class="message-sender">
+                            <span>{{ message.sender.username }}</span>
+                        </div>
+                        <div class="message-content">
+                            <p>{{ message.content }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <form method="post" class="message-form">
+                {% csrf_token %}
+                <div class="input-field">
+                    <textarea id="message_content" name="message_content" class="materialize-textarea"></textarea>
+                    <button class="btn waves-effect waves-light sndbtn" type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+
+
+    </main>
+
+    <footer>
+        <!-- Footer content here -->
+    </footer>
+
+    <script src="{% static 'js/materialize.min.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            M.AutoInit();
+        });
+
+        function startPrivateChat(userId) {
+            // Redirect to the private chat page with the selected user ID
+            window.location.href = '/private_chat/' + userId + '/';
+        }
+    </script>
+</body>
+
+</html>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Private Chat</title>
+    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/chats.css' %}">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Volunteers</h2><br>
+        <ul>
+            {% for member in all_users %}
+            <li class="user">
+                <a href="#" onclick="startPrivateChat('{{ member.id }}')">
+                    <span class="user-icon {% if member.is_online %}online{% else %}offline{% endif %}"></span>
+                    {{ member.username }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="main-content container card">
+        <br>
+        <div class="">
+            <h1>Private Chat</h1>
+        </div><br><Br>
+        <div class="chat-container ">
+            <div class="messages">
+                {% for message in messages %}
+                <div class="message {% if message.sender == user %}sent{% else %}received{% endif %}">
+                    <div class="message-sender">
+                        <span>{{ message.sender.username }}</span>
+                    </div>
+                    <div class="message-content">
+                        <p>{{ message.content }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <form method="post" class="message-form">
+            {% csrf_token %}
+            <div class="input-field">
+                <textarea id="message_content" name="message_content" class="materialize-textarea"></textarea>
+                <button class="btn waves-effect waves-light sndbtn" type="submit">Send</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+<script>
+    function startPrivateChat(userId) {
+        // Redirect to the private chat page with the selected user ID
+        window.location.href = '/private_chat/' + userId + '/';
+    }
+</script>
+{% endblock %}

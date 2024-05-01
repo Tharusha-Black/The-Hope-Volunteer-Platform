@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="card container">
+    <div class="container ">
+        <div class="text-center">
+            <h1 class="display-3 font-weight-bold text-shadow">Welcome To The Volant X Volunteer Platform</h1>
+        </div><br>
+        <div class="text-center mt-4">
+            <a href="{% url 'login' %}" class="btn btn-primary btn-lg mr-3">Login</a>&nbsp;&nbsp;
+            <a href="{% url 'signup' %}" class="btn btn-success btn-lg">Signup</a>
+        </div>
+    </div><br><br><Br>
+    <div class="row mt-4">
+        <div class="col-md-12 text-center">
+            <p class="lead">Explore available Volunteer oppertunities & Events through our API.</p>
+            <a href="{% url 'event-list' %}" class=" btn-primary mr-3">Get Events api</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

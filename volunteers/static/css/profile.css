@@ -1,0 +1,79 @@
+/* Add this CSS to your profile.css file */
+.sidebar {
+    float: left;
+    width: 25%;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border: 2px solid #ccc; /* Border color */
+    border-radius: 50px; /* Border radius */
+    margin-left: 10px;
+
+}
+
+.main-content {
+    float: right;
+    width: 75%;
+    padding: 20px;
+}
+
+.card {
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.card-title {
+    margin-bottom: 20px;
+}
+
+.user {
+    margin-bottom: 10px;
+}
+
+.online,
+.offline {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+.online {
+    background-color: green;
+}
+
+.offline {
+    background-color: red;
+}
+/* Add this CSS to your profile.css file */
+.user-icon {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-radius: 50%;
+    margin-right: 5px; /* Add margin for spacing between icon and username */
+}
+.sidebar ul {
+    list-style: none; /* Remove list bullet points */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+}
+/* Style for each user item */
+.user {
+    margin-bottom: 10px; /* Add some spacing between user items */
+}
+
+/* Style for user name link */
+.user a {
+    color: #333; /* Change link color */
+    text-decoration: none; /* Remove default underline */
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Vertically center content */
+}
+
+/* Style for user icon */
+.user-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px; /* Add margin for spacing between icon and username */
+}

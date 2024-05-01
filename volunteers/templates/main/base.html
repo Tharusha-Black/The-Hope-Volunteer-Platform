@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr@5.3.0/dist/flatpickr.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            
+            {% if user.is_authenticated %}
+            <a class="navbar-brand mx-auto" href="{% url 'volunteer_opportunities:opportunity_list' %}">The X Volunteer</a>
+            {% else %}
+            <p class="navbar-brand mx-auto">The X Volunteer</p>
+            {% endif %}
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                        {% if user.is_superuser %}
+                            <li class="nav-item">
+                                <p class="nav-link" >Admin</p>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+
+                    <li class="nav-item">
+                        {% if user.is_authenticated %}
+                            <a class="nav-link mr-3" href="{% url 'profile' %}">Welcome, {{ user.username }}</a>
+                            <a class="nav-link btn btn-danger text-white" href="{% url 'logout' %}">Logout</a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <br>
+    {% block content %}{% endblock %}
+</body>
+
+</html>
